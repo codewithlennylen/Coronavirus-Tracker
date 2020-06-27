@@ -1,15 +1,18 @@
 import requests
 import json
+import time
+import threading
 
 
 # Authentication Details -> Parsehub
-API_KEY = ''
-PROJECT_TOKEN = ''
-RUN_TOKEN = ''
+API_KEY = 't_Hc1GB4FOkj'
+PROJECT_TOKEN = 'tN9U7jFUG2JB'
+RUN_TOKEN = 'tPFHv-guQC-5'
 
 # initial tests to ensure we can successfully get data from the API
 response = requests.get(f'https://www.parsehub.com/api/v2/projects/{PROJECT_TOKEN}/last_ready_run/data', params={'api_key' : API_KEY})
-data = json.loads(response.text)
+print(f'Test Data: {response}')
+# data = json.loads(response.text)
 
 
 class Data:
@@ -21,11 +24,12 @@ class Data:
 		self.params = {
 			"api_key" : self.api_key
 		}
-		self.get_data()
+		self.data = self.get_data()
 
 	def get_data(self):
 		response = requests.get(f'https://www.parsehub.com/api/v2/projects/{self.project_token}/last_ready_run/data', params=self.api_key)
-		self.data = json.loads(response.text)
+		data = json.loads(response.text)
+		return data
 
 	def get_total_cases(self):
 		data = self.data['total']
@@ -51,6 +55,22 @@ class Data:
 				return content
 		return "0"
 
+	def update_data():
+		response = requests.post(f'https://www.parsehub.com/api/v2/projects/{self.project_token}/run', params=self.api_key)
+
+		def poll():
+			time.sleep(0.1)
+			old_data = self.data
+			while True:
+				new_data = self.get_data()
+				if new_data != old_data:
+					self.data = new_data
+					print('Data Updated')
+					break
+				time.sleep(5)
+
+		t = threading.Thread(target=poll)
+		t.start()
 
 # Playing around with the script to get coronavirus cases
 # With this information, you can setup any interface for the user : speech(Text-to-Speech), Web-App, CLI, etc
@@ -59,3 +79,5 @@ data = Data(API_KEY, PROJECT_TOKEN)
 print(data.get_total_cases())
 print(data.get_total_deaths())
 print(data.get_country_data('canada')['total_cases'])
+
+data.update_data()
