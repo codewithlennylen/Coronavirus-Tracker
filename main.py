@@ -2,18 +2,21 @@ import requests
 import json
 import time
 import threading
+import nexmo
 
 
 # Authentication Details -> Parsehub
-API_KEY = 't_Hc1GB4FOkj'
-PROJECT_TOKEN = 'tN9U7jFUG2JB'
-RUN_TOKEN = 'tPFHv-guQC-5'
+API_KEY = 'tFbQ0kth6vTn'
+PROJECT_TOKEN = 'tJhSvz24HZge'
+RUN_TOKEN = 't1oT4C0wafTM'
 
 # initial tests to ensure we can successfully get data from the API
 response = requests.get(f'https://www.parsehub.com/api/v2/projects/{PROJECT_TOKEN}/last_ready_run/data', params={'api_key' : API_KEY})
 print(f'Test Data: {response}')
 # data = json.loads(response.text)
 
+# SMS Client
+client = nexmo.Client(key='7302e26c', secret='xsemUZtjslydSnJ6')
 
 class Data:
 	''' This class helps us parse the data from the api-response
@@ -28,6 +31,7 @@ class Data:
 
 	def get_data(self):
 		response = requests.get(f'https://www.parsehub.com/api/v2/projects/{self.project_token}/last_ready_run/data', params=self.api_key)
+		print(response.text)
 		data = json.loads(response.text)
 		return data
 
@@ -81,3 +85,24 @@ print(data.get_total_deaths())
 print(data.get_country_data('canada')['total_cases'])
 
 data.update_data()
+
+def send_SMS():
+	''' For this Demo, I will send Total Cases, Total Deaths, Total Recovered
+		+ 
+	'''
+
+	# First message is for the worldly figures
+	client.send_message({
+    'from': 'Vonage APIs',
+    'to': '254791485681',
+    'text': f"WORLD FIGURES\n\n{world_msg}\n\n\nSent from Lenny\'s Coronavirus-Tracker",
+	})
+	print('Text Message Sent!! :> World Figures')
+
+	# Second message is for country figures e.g Kenya ^_*
+	client.send_message({
+    'from': 'Vonage APIs',
+    'to': '254791485681',
+    'text': f"CASES IN KENYA\n\n{country_msg}\n\n\nSent from Lenny\'s Coronavirus-Tracker",
+	})
+	print('Text Message Sent!! :> World Figures')
