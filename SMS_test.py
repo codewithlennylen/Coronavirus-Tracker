@@ -7,3 +7,5 @@ client.send_message({
     'to': '254791485681',
     'text': 'This message was sent from my Python Script',
 })
+
+print('Message Sent')
