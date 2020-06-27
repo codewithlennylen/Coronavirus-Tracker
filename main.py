@@ -17,6 +17,7 @@ RUN_TOKEN = 'tznJZ08pekP_'
 
 # SMS Client
 client = nexmo.Client(key='7302e26c', secret='xsemUZtjslydSnJ6')
+client2 = nexmo.Client(key='7302e26c', secret='xsemUZtjslydSnJ6')
 
 class Data:
 	''' This class helps us parse the data from the api-response
@@ -92,7 +93,7 @@ print(f"World Deaths : {data.get_total_deaths()}")
 print(f"World Recoveries : {data.get_total_recoveries()}")
 print(f"Cases in Kenya : {data.get_country_data('kenya')['total_cases']}")
 
-# data.update_data()
+data.update_data()
 
 def send_SMS():
 	''' For this Demo, I will send Total Cases, Total Deaths, Total Recovered
@@ -111,7 +112,7 @@ def send_SMS():
 	time.sleep(2)
 
 	# Second message is for country figures e.g Kenya ^_*
-	client.send_message({
+	client2.send_message({
     'from': 'Vonage APIs',
     'to': '254791485681',
     'text': f"CASES IN KENYA\n\n{country_msg}\n\nSent from Lenny\'s Coronavirus-Tracker",
