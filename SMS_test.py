@@ -1,10 +1,9 @@
-import time
-from sinchsms import SinchSMS
+import nexmo
 
-number = "mobile-number"
-message = 'I Love Python!'
+client = nexmo.Client(key='7302e26c', secret='xsemUZtjslydSnJ6')
 
-client = SinchSMS(APP_KEY, APP_SECRET)
-
-print(f'Sending {message} to {number}')
-response = client.send_message(number, message)
+client.send_message({
+    'from': 'Vonage APIs',
+    'to': '254791485681',
+    'text': 'This message was sent from my Python Script',
+})
