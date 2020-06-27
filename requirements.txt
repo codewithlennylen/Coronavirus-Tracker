@@ -1,0 +1,13 @@
+certifi==2020.6.20
+cffi==1.14.0
+chardet==3.0.4
+cryptography==2.9.2
+idna==2.9
+iso8601==0.1.12
+nexmo==2.4.0
+pycparser==2.20
+PyJWT==1.7.1
+pytz==2020.1
+requests==2.24.0
+six==1.15.0
+urllib3==1.25.9
