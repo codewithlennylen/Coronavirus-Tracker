@@ -10,12 +10,8 @@ API_KEY = 'tFbQ0kth6vTn'
 PROJECT_TOKEN = 'tJhSvz24HZge'
 RUN_TOKEN = 'tznJZ08pekP_'
 
-## initial tests to ensure we can successfully get data from the API
-# r = requests.get('https://www.parsehub.com/api/v2/projects/tJhSvz24HZge/last_ready_run/data',params={'api_key':API_KEY})
-# print(r.text)
-# print('---------')
 
-# SMS Client
+# SMS Client - Get the Keys after signing in at Nexmo / Vonage
 client = nexmo.Client(key='7302e26c', secret='xsemUZtjslydSnJ6')
 client2 = nexmo.Client(key='7302e26c', secret='xsemUZtjslydSnJ6')
 
